@@ -9,6 +9,7 @@ import subprocess
 from wtforms.validators import InputRequired
 
 app = Flask(__name__)
+file_list = []
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = './container'
 
@@ -19,6 +20,7 @@ def allowed_file(filename):
 def clean_folder():
     cmd="rm -r ./container; mkdir ./container"
     output = subprocess.Popen([cmd], shell=True,  stdout = subprocess.PIPE).communicate()[0]
+    file_list = []
 
 class UploadFileForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
@@ -26,6 +28,19 @@ class UploadFileForm(FlaskForm):
 
 @app.route('/', methods=['GET',"POST"])
 @app.route('/home', methods=['GET',"POST"])
+
+@app.before_first_request
+def before_first_request():
+    clean_folder()
+    print("01")
+    return home()
+    #return redirect(url_for('home'))
+@app.before_request
+def before_request():
+    print("02")
+    return home()
+
+@app.route('/')
 def home():
     msg = None
     form = UploadFileForm()
@@ -33,13 +48,15 @@ def home():
         file = form.file.data
         name = secure_filename(file.filename)
         if allowed_file(name):
-            clean_folder()
+            # clean_folder()
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],name))
+            file_list.append(name)
             msg =  name+"上传成功"
+            
         else:
             flash('请上传word格式（docx, doc)')
-            return redirect(url_for('home'))
-    return render_template('index.html', form=form,msg=msg)
+        return redirect(url_for('home'))
+    return render_template('index.html', form=form,msg=msg,file_list=file_list)
 
 if __name__ == '__main__':
     app.run(host="localhost", port=5003, debug=True)

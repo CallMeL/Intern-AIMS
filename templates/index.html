@@ -13,7 +13,27 @@
    <p><strong></strong> {{ msg }}
 {% endif %}
 
-{% with messages = get_flashed_messages() %}
+
+  {% if file_list.length!=0 %}
+	<ul>
+      <p><strong></strong>已上传文件
+	{% for name in file_list %}
+   
+   <p><strong></strong>{{ name }}
+	{% endfor %}
+	</ul>
+  {% endif %}
+
+
+
+
+   <form method='POST' enctype='multipart/form-data'>
+      {{form.hidden_tag()}}
+      {{form.file()}}
+      {{form.submit()}}
+   </form>
+
+   {% with messages = get_flashed_messages() %}
   {% if messages %}
 	<ul>
 	{% for message in messages %}
@@ -22,12 +42,6 @@
 	</ul>
   {% endif %}
 {% endwith %}
-
-   <form method='POST' enctype='multipart/form-data'>
-      {{form.hidden_tag()}}
-      {{form.file()}}
-      {{form.submit()}}
-   </form>
 </body>
 
 </html>
