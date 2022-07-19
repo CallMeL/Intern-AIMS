@@ -1,4 +1,5 @@
 
+import chardet
 from flask import Flask, render_template,flash,request,redirect,url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
@@ -25,6 +26,8 @@ def clean_folder():
 class UploadFileForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     submit = SubmitField("上传文件")
+class DeleteFile(FlaskForm):
+    submit = SubmitField("删除")
 
 @app.route('/', methods=['GET',"POST"])
 @app.route('/home', methods=['GET',"POST"])
@@ -44,9 +47,19 @@ def before_request():
 def home():
     msg = None
     form = UploadFileForm()
-    if form.validate_on_submit():
+    delete = DeleteFile()
+
+    if delete.validate_on_submit() and delete.submit.data:
+        # text = request.form['Value1']
+        # print(text)
+        # return redirect(url_for('home'))
+        pass
+
+    if form.validate_on_submit() and form.submit.data:
         file = form.file.data
-        name = secure_filename(file.filename)
+        name=file.filename
+#        name = secure_filename(file.filename)
+    
         if allowed_file(name):
             # clean_folder()
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],name))
@@ -56,7 +69,7 @@ def home():
         else:
             flash('请上传word格式（docx, doc)')
         return redirect(url_for('home'))
-    return render_template('index.html', form=form,msg=msg,file_list=file_list)
+    return render_template('index.html', delete =delete, form=form,msg=msg,file_list=file_list)
 
 if __name__ == '__main__':
     app.run(host="localhost", port=5003, debug=True)
