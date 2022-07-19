@@ -1,5 +1,3 @@
-
-import chardet
 from flask import Flask, render_template,flash,request,redirect,url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
@@ -29,8 +27,7 @@ class UploadFileForm(FlaskForm):
 class DeleteFile(FlaskForm):
     submit = SubmitField("删除")
 
-@app.route('/', methods=['GET',"POST"])
-@app.route('/home', methods=['GET',"POST"])
+@app.route('/parse_docx', methods=['GET',"POST"])
 
 @app.before_first_request
 def before_first_request():
@@ -43,17 +40,14 @@ def before_request():
     print("02")
     return home()
 
-@app.route('/')
+@app.route('/parse_docx')
 def home():
     msg = None
     form = UploadFileForm()
     delete = DeleteFile()
 
     if delete.validate_on_submit() and delete.submit.data:
-        # text = request.form['Value1']
-        # print(text)
-        # return redirect(url_for('home'))
-        pass
+        print("1")
 
     if form.validate_on_submit() and form.submit.data:
         file = form.file.data
