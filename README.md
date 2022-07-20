@@ -6,7 +6,7 @@
     ```
 * using vituralenv
     ```
-    pip3 install install virtualenv  
+    pip3 install virtualenv  
     virtualenv env  
    .\env\Scripts\activate  
     pip3 install -r requirements.txt  
