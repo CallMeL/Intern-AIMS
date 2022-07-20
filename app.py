@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 import os
 import subprocess
 from wtforms.validators import InputRequired
-
+from parser import *
 app = Flask(__name__)
 file_list = []
 app.config['SECRET_KEY'] = 'supersecretkey'
