@@ -9,30 +9,6 @@
 </head>
 
 <body>
-   {% if msg %}
-   <p><strong></strong> {{ msg }}
-{% endif %}
-
-
-  {% if file_list.length!=0 %}
-	<ul>
-      <p><strong></strong>已上传文件
-	{% for name in file_list %}
-   <!-- <p ><strong>{{ name }}</strong>   -->
-      <form method='POST' enctype='multipart/form-data'>   
-         <p ><strong>{{ name }}</strong>
-            {{delete.submit()}}
-         </p>
-        
-      </form>
-
-	{% endfor %}
-	</ul>
-
-  {% endif %}
-
-
-
 
    <form method='POST' enctype='multipart/form-data'>
       {{form.hidden_tag()}}
