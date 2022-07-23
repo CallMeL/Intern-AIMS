@@ -1,13 +1,13 @@
+
 import pandas as pd
 import json
-from docx import Document
-import glob
+import docx
 import os
 def parser():
     name = os.listdir('./container/')[0]
     #print(name)
     name = './container/'+name
-    wordDoc = Document(name)
+    wordDoc = docx.Document(name)
     table0 = wordDoc.tables[0]
     data0 = [[cell.text for cell in row.cells] for row in table0.rows]
     df0 = pd.DataFrame(data0)
@@ -37,7 +37,9 @@ def parser():
     df_T = df_T.reset_index(drop=True)
     df_T
     result = df_T.to_json(orient="records")
+    return result
     parsed = json.loads(result)
     data = json.dumps(parsed, sort_keys=False, indent=4, ensure_ascii=False)  
     print(data)
+    return result
     return data

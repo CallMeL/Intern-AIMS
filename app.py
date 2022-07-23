@@ -6,7 +6,8 @@ from werkzeug.utils import secure_filename
 import os
 import subprocess
 from wtforms.validators import InputRequired
-from parser import *
+from parse import *
+import requests
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -47,10 +48,15 @@ def home():
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],name))
             msg = name+"上传成功"
             flash(msg)
+            json = parser()
+            print(json)
+            res = requests.post('http://localhost:5003/test', json=json)
         else:
             flash('请上传word格式（docx, doc)')
         return redirect(url_for('home'))
     return render_template('index.html', delete =delete, form=form)
+
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5003, debug=True)
