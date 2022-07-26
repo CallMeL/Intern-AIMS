@@ -26,13 +26,16 @@ host = "0.0.0.0", port = 5000
     python app.py
     ```
 ## way2 RUN (docker & postman)
-* step1: in terminal:
+
+* step1: in terminal/or in Docker dashboard:
     ```
     docker build -t aims-form  
     docker build -t aims-form .   
-   docker run --rm -it -p 8000:5000 aims-form:latest 
+    docker restart aims-form
+    docker exec -it (container-name) /bin/sh 
+    python3 app.py
     ```
-* step2: in postman(Still debuging see issue3):
+* step2: in postman:
     1. select POST
-    2. url = 'http://127.0.0.1:8000/parse_docx'
+    2. url = 'http://127.0.0.1:5003/parse_docx'
     3. chose `form-data` and input `file (selected as File)` and the file you want to upload
