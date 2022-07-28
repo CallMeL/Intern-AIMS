@@ -31,8 +31,7 @@ host = "0.0.0.0", port = 5000
     ```
     docker build -t aims-form  
     docker build -t aims-form .   
-    docker restart aims-form
-    docker exec -it (container-name) /bin/sh 
+    docker run -d -p 5003:5003 aims-form
     python3 app.py
     ```
 * step2: in postman:
