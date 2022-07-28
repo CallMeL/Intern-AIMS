@@ -33,13 +33,18 @@ def home():
         clean_folder()
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        parse_result = parser()
-        #data = json.dumps(parse_result, sort_keys=False, indent=4, ensure_ascii=False)  
-        data = json.loads(parse_result)
-        #resp = jsonify({'message' : 'File successfully uploaded'})
-        resp = jsonify(data)
-        resp.status_code = 201
-        return resp
+        if parser() == False:
+            resp = jsonify({'message': 'Format error'})
+            resp.status_code = 400
+            return resp
+        else:
+            parse_result = parser()
+            #data = json.dumps(parse_result, sort_keys=False, indent=4, ensure_ascii=False)
+            data = json.loads(parse_result)
+            #resp = jsonify({'message' : 'File successfully uploaded'})
+            resp = jsonify(data)
+            resp.status_code = 201
+            return resp
     else:
         resp = jsonify({'message' : 'Allowed file types are docx, doc'})
         resp.status_code = 400
