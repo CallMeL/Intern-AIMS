@@ -38,3 +38,8 @@ host = "0.0.0.0", port = 5000
     1. select POST
     2. url = 'http://127.0.0.1:5003/parse_docx'
     3. chose `form-data` and input `file (selected as File)` and the file you want to upload
+    
+ 
+## result
+return parsed json format data
+![](./result.png)
