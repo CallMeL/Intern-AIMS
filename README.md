@@ -1,7 +1,7 @@
 # INTRO
 This is a web application / api, that parsing specific format of microsoft word file (docx or doc), which user upload via POST or FileField & SubmitField, to json format
 
-host = "0.0.0.0", port = 5000
+host = "0.0.0.0", port = 5003
 
 1. parse.py
     contains function `parser` that parses .docx or doc files to json format
